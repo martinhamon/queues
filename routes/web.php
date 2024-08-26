@@ -9,16 +9,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/queue', MainQueue::class);
-Route::get('/caller', Caller::class);
-Route::get('/patient/queue', function () {
-       
-    broadcast(new \App\Events\PatientCall(Patient::find(3)));
-});
 
 
 
 
+
+
+Route::get('/queue', MainQueue::class)->name('queue');
 
 
 Route::middleware([
@@ -26,9 +23,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/caller', Caller::class);
+    
     Route::get('/dashboard', function () {
         return view('dashboard');
        
     })->name('dashboard');
-   
 });

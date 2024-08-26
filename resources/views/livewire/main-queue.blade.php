@@ -8,7 +8,7 @@
             <div class="content">
                 @if($patient)
                 <p>Proximo paciente:</p>
-                <div class="patient-name">{{ $patient->name }}</div>
+                <div class="patient-name">{{ $patient->name }}, {{ $patient->lastname }}</div>
                 <div class="medical-office">{{ $medicalOffice }}</div>
                 @else
                 <p>No hay pacientes en espera.</p>
