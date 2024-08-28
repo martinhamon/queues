@@ -12,8 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__.'/../routes/channels.php',
         health: '/up',
     )
+   
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->validateCsrfTokens(except: [
+           
+            'http://127.0.0.1:8000/queue',
+           
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

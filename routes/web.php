@@ -2,6 +2,7 @@
 
 use App\Livewire\Caller;
 use App\Livewire\MainQueue;
+use App\Livewire\PatientAdmission;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -29,4 +30,6 @@ Route::middleware([
         return view('dashboard');
        
     })->name('dashboard');
+
+    Route::get('/patient/admission', PatientAdmission::class);
 });
