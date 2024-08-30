@@ -7,21 +7,19 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg  p-6 ">
 
                 <h1 class="text-2xl font-bold mb-6">Admisión de Pacientes</h1>
-
+                <div class="  p-6 ">
+                <div class="flex items-center justify-between">
+                    <button wire:click="$dispatch('openModal', { component: 'patient-search' })" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Buscar paciente</button>
+                </div>
+                </div>
+               
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="dni">
                         DNI
                     </label>
-                    <input wire:model.live="patient_dni" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="patient_dni" name="patient_dni" type="text" placeholder="DNI del Paciente">
+                    <input disabled wire:model.live="patient_dni" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="patient_dni" name="patient_dni" type="text" placeholder="DNI del Paciente">
 
-                    @if($patients)
-                    @foreach ($patients as $patient)
-                    <div class="text-red-500 text-sm">{{$patient }}</div>
-                    @endforeach
-
-                    @else
-                    <div class="text-red-500 text-sm">no hay coincidencias</div>
-                    @endif
+                   
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
@@ -41,11 +39,9 @@
                         Admitir Paciente
                     </button>
                 </div>
-                <div class="flex items-center justify-between">
-                    <button wire:click="search()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                       Buscar paciente
-                    </button>
-                </div>
+
+
+                
 
             </div>
 

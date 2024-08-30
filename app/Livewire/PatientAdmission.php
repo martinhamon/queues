@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Patient;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class PatientAdmission extends Component
@@ -49,5 +50,14 @@ class PatientAdmission extends Component
         $this->patient_name = '';
         $this->patient_lastname = '';
         $this->patient_dni = '';
+    }
+
+    #[On('patient-find')]
+    public function showCaller($id=null)
+    {
+                
+            Log::info('showCaller '.$id );
+        
+     
     }
 }

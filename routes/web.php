@@ -2,6 +2,7 @@
 
 use App\Livewire\Caller;
 use App\Livewire\MainQueue;
+use App\Livewire\Office;
 use App\Livewire\PatientAdmission;
 use App\Models\Patient;
 use App\Models\User;
@@ -32,4 +33,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/patient/admission', PatientAdmission::class);
+    Route::get('/admin/office', Office::class)->name('office.add');
 });
