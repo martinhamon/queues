@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Models\Patient;
 use App\Models\patient_queue;
 class EventController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Handle the incoming event.
      *
