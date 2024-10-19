@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->string('status');
             $table->string('priority');
-            $table->string('medical_office')->nullable();
-
+            $table->unsignedBigInteger('office_id');
+            $table->foreign('office_id')->references('id')->on('offices')->onDelete('cascade');
+           
             $table->timestamps();
         });
     }

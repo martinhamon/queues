@@ -47,6 +47,7 @@ class PatientSearch extends ModalComponent
 
         Log::info('selectPatient ' . $this->dni);
         $this->dispatch('patient-find', $id);
+        $this->dispatch('closeModal'); 
     }
     public function render()
     {

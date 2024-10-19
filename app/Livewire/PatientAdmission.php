@@ -2,10 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Models\office;
+use App\Models\patient_queue;
 use App\Models\Patient;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use PhpParser\Node\Stmt\TryCatch;
 
 class PatientAdmission extends Component
 {
@@ -14,6 +18,26 @@ class PatientAdmission extends Component
     public $patient_dni;
     public $patients;
     public $enable = false;
+    public $offices;
+    public $selectedOffice;
+    public $patient_id;
+
+    protected $rules = [
+
+        'patient_name' => 'required',
+        'patient_lastname' => 'required',
+        'patient_dni' => 'required',
+        'selectedOffice' => 'required',
+
+    ];
+
+    public function mount()
+    {
+        $this->offices = office::all();
+        if ($this->offices->isNotEmpty()) {
+            $this->selectedOffice = $this->offices->first()->id;
+        }
+    }
 
 
     public function render()
@@ -34,30 +58,37 @@ class PatientAdmission extends Component
 
     public function save()
     {
+        try {
 
-        $this->validate([
-            'patient_name' => 'required',
-            'patient_lastname' => 'required',
-            'patient_dni' => 'required',
+        $this->validate();
+        }
+        catch (ValidationException $e) {
+            Log::info('Guardado '. $e->getMessage());
+        }
+
+       
+        patient_queue::create([
+            'patient_id' => $this->patient_id,
+            'office_id' =>$this->selectedOffice,
+           
+            'priority' => 'low',
+            'status' => 'waiting',
         ]);
-        Log::info('Guardado ');
-        $patient = new Patient();
-        $patient->name = $this->patient_name;
-        $patient->lastname = $this->patient_lastname;
-        $patient->dni = $this->patient_dni;
-        $patient->save();
 
+       
         $this->patient_name = '';
         $this->patient_lastname = '';
         $this->patient_dni = '';
     }
 
     #[On('patient-find')]
-    public function showCaller($id=null)
+    public function showCaller($id = null)
     {
-                
-            Log::info('showCaller '.$id );
-        
-     
+        $patient = Patient::find($id);
+        $this->patient_id=$patient->id;
+        $this->patient_name = $patient->name;
+        $this->patient_lastname = $patient->lastname;
+        $this->patient_dni = $patient->dni;
+        Log::info('showCaller ' . $id);
     }
 }

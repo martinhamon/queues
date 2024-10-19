@@ -35,6 +35,20 @@ class PatientsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'Martin ',
+                'lastname' => 'Hamon',
+                'dni' => '29635178',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Test ',
+                'lastname' => 'uno',
+                'dni' => '2222',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     
     }

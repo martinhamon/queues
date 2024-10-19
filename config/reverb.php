@@ -71,6 +71,7 @@ return [
 
         'apps' => [
             [
+                'id' => env('REVERB_APP_ID'),
                 'key' => env('REVERB_APP_KEY'),
                 'secret' => env('REVERB_APP_SECRET'),
                 'app_id' => env('REVERB_APP_ID'),
@@ -83,7 +84,23 @@ return [
                 'allowed_origins' => ['*'],
                 'ping_interval' => env('REVERB_APP_PING_INTERVAL', 60),
                 'max_message_size' => env('REVERB_APP_MAX_MESSAGE_SIZE', 10_000),
+            ]
+        ]
+        ,
+        [
+            'id' => env('FRONT_PACS_REVERB_APP_ID'),
+            'key' => env('FRONT_PACS_REVERB_APP_KEY'),
+            'secret' => env('FRONT_PACS_REVERB_APP_SECRET'),
+            'app_id' => env('FRONT_PACS_REVERB_APP_ID'),
+            'options' => [
+                'host' => env('FRONT_PACS_REVERB_HOST'),
+                'port' => env('FRONT_PACS_REVERB_PORT', 443),
+                'scheme' => env('FRONT_PACS_REVERB_SCHEME', 'https'),
+                'useTLS' => env('FRONT_PACS_REVERB_SCHEME', 'https') === 'https',
             ],
+            'allowed_origins' => ['*'],
+            'ping_interval' => env('FRONT_PACS_REVERB_APP_PING_INTERVAL', 60),
+            'max_message_size' => env('FRONT_PACS_REVERB_APP_MAX_MESSAGE_SIZE', 10_000),
         ],
 
     ],

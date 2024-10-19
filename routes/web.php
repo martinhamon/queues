@@ -4,10 +4,11 @@ use App\Livewire\Caller;
 use App\Livewire\MainQueue;
 use App\Livewire\Office;
 use App\Livewire\PatientAdmission;
+use App\Livewire\Queueds;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\EventController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -34,4 +35,5 @@ Route::middleware([
 
     Route::get('/patient/admission', PatientAdmission::class);
     Route::get('/admin/office', Office::class)->name('office.add');
+    Route::get('/admin/new/queue', Queueds::class)->name('queue.add');
 });

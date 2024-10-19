@@ -1,4 +1,4 @@
-<div>
+<div id="modal">
     <div class="w-full max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">
         <h2 class="text-2xl font-bold mb-6">Busqueda de paciente</h2>
         <form wire:submit.prevent="searchPatient" class="space-y-4">
@@ -42,4 +42,10 @@
         @endif
 
     </div>
+
+    <script>
+        window.addEventListener('closeModal', event => {
+     $("#modal").modal('hide');                
+})
+    </script>
 </div>

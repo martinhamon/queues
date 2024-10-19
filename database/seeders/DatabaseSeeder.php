@@ -16,13 +16,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'martin Hamon',
+            'email' => 'martinhamon@gmail.com',
+            'password' => bcrypt('12345678'),
         ]);
 
         $this->call([
             PatientsTableSeeder::class,
-            PatientQueuesTableSeeder::class,
+           // PatientQueuesTableSeeder::class,
         ]);
     }
 }

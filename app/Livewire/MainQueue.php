@@ -4,10 +4,10 @@ namespace App\Livewire;
 
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Log; // Add this line to import the Log class
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
-use App\Models\Patient; // Add this line to import the Patient class
-use App\Models\patient_queue; // Add this line to import the patient_queue class
+use App\Models\Patient;
+use App\Models\patient_queue;
 
 class MainQueue extends Component
 {
@@ -28,46 +28,57 @@ class MainQueue extends Component
     }
 
     public function callPatient($patient)
-    {  
-        
-        Log::info('Call method invoked with parameter: ' .$patient['patient']['name']);
+    {
+
+        Log::info('Call method invoked with parameter: ' . $patient['patient']['name']);
         $this->dispatch('callAdded', $patient);
     }
 
     #[On('callAdded')]
-    public function showCaller($parameter=null)
+    public function showCaller($parameter = null)
     {
-        
-       
-        if(!empty($parameter)){
-        // Obtener el paciente actual
-        $patient = Patient::find($parameter['patient']['id']); 
-        }else{
-            $patient = Patient::first();
+
+
+        if (!empty($parameter)) {
+            // Obtener el paciente actual
+            $patient = Patient::find($parameter['patient']['id']);
+        } else {
+            $patient = null;
         }
 
         // Obtener los últimos 4 llamados
-        $this->recentCalls = patient_queue::latest()->take(4)->get();
+        $this->recentCalls = patient_queue::where('status', 'in progress')
+            ->orderBy('created_at', 'desc') // Ordenar por 'created_at' en orden descendente
+            ->take(4)
+            ->get();
+          
+        if ($parameter===null) {
+          //  $patient = Patient::find($this->recentCalls->first()->patient_id);
+            $patient = new Patient();
+         
+        } else {
 
-        // Datos del paciente actual
-        $this->patient = $patient;
-        $this->medicalOffice = 'Consultorio xx'; 
+            $this->patient = $patient;
+           
 
-     
+                $this->medicalOffice = patient_queue::where('patient_id', '=', $this->patient->id)->get()->first()->office_id;
+           
+            }
+        
     }
 
 
-    
+
 
     #[On('echo:patient-call,MessageEvent')]
-    public function eventProccess($parameter=null)
+    public function eventProccess($parameter = null)
     {
-        
-        Log::info('Llego a showCallereee ' .$parameter['patient']['name']);
-        if(!empty($parameter)){
-        // Obtener el paciente actual
-        $patient = Patient::find($parameter['patient']['id']); 
-        }else{
+
+        Log::info('Llego a showCallereee ' . $parameter['patient']['name']);
+        if (!empty($parameter)) {
+            // Obtener el paciente actual
+            $patient = Patient::find($parameter['patient']['id']);
+        } else {
             $patient = Patient::first();
         }
 
@@ -76,8 +87,7 @@ class MainQueue extends Component
 
         // Datos del paciente actual
         $this->patient = $patient;
-        $this->medicalOffice = 'Consultorio xx'; 
+        $this->medicalOffice = 'Consultorio xx';
         Log::info('Llego a showCallereee ' . $parameter['patient']['name']);
     }
-  
 }
