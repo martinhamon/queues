@@ -77,7 +77,7 @@ class MainQueue extends Component
         Log::info('Llego a showCallereee ' . $parameter['patient']['name']);
         if (!empty($parameter)) {
             // Obtener el paciente actual
-            $patient = Patient::find($parameter['patient']['id']);
+            $patient = Patient::where('dni',$parameter['patient']['id']);
         } else {
             $patient = Patient::first();
         }
