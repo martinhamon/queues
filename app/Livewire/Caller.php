@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\office;
 use Livewire\Component;
 use App\Models\Patient;
 use App\Models\patient_queue;
@@ -27,11 +28,18 @@ class Caller extends Component
 
 
     
-    public function callPatient($patient,$queue_id)
+    public function callPatient($patient,$office)
     {
-        $patientQueue = patient_queue::find($queue_id);
-        $patientQueue->update(['status' => 'in progress']);
-        event(new \App\Events\PatientCall(Patient::find($patient))); 
+        $query   = patient_queue::where('patient_id', $patient)
+       ->Where('office_id', $office);
+       
+       $patientQueue = $query->first();
+      
+               $patientQueue->status = 'in progress';
+        $patientQueue->save();
+      
+     
+        event(new \App\Events\PatientCall(Patient::find($patient),office::find ($office))); 
     }
 
     public function finalize($id)

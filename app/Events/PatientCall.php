@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\Patient;
-
+use App\Models\Office;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
@@ -18,9 +18,10 @@ class PatientCall implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct( public Patient $patient)
+    public function __construct( public Patient $patient, public Office $office)
     {
-        
+        $this->patient = $patient;
+        $this->office = $office;
     }
     
 

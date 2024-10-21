@@ -29,8 +29,9 @@ class MainQueue extends Component
 
     public function callPatient($patient)
     {
+       
 
-        Log::info('Call method invoked with parameter: ' . $patient['patient']['name']);
+        Log::info('Call method invoked with parameter: ' ,['p'=> $patient]);
         $this->dispatch('callAdded', $patient);
     }
 
@@ -38,7 +39,7 @@ class MainQueue extends Component
     public function showCaller($parameter = null)
     {
 
-
+        
         if (!empty($parameter)) {
             // Obtener el paciente actual
             $patient = Patient::find($parameter['patient']['id']);
@@ -61,7 +62,7 @@ class MainQueue extends Component
             $this->patient = $patient;
            
 
-                $this->medicalOffice = patient_queue::where('patient_id', '=', $this->patient->id)->get()->first()->office_id;
+                $this->medicalOffice = $parameter['office']['id'];
            
             }
         
@@ -73,7 +74,7 @@ class MainQueue extends Component
     #[On('echo:patient-call,MessageEvent')]
     public function eventProccess($parameter = null)
     {
-
+        dd($parameter);
         Log::info('Llego a showCallereee ' . $parameter['patient']['name']);
         if (!empty($parameter)) {
             // Obtener el paciente actual

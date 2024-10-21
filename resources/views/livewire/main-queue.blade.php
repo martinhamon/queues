@@ -11,7 +11,7 @@
                 @if(!is_null( $patient))
                 @php
 
-               
+            
                 $office=App\Models\Office::find($medicalOffice)->description;
 
                 @endphp

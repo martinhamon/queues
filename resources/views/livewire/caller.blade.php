@@ -24,16 +24,16 @@
                             <tr>
                                 @php
 
-                                
+                              
                                 $office=App\Models\Office::find($patient->office_id)->description;
 
                                 @endphp
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $patient['name'] }}, {{ $patient['lastname'] }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $patient['created_at'] }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{$office}}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{$office}}--{{$patient->office_id}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $patient['status'] }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <button wire:click="callPatient('{{ $patient['patient_id'] }}','{{ $patient['id'] }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Llamar</button>
+                                    <button wire:click="callPatient('{{ $patient['patient_id'] }}','{{$patient['office_id'] }}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Llamar</button>
                                     <button wire:click="finalize('{{ $patient['id'] }}')" class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Finalizar</button>
                                 </td>
                             </tr>
