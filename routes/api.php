@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ApiAuthController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
 
 Route::post('/events', [EventController::class, 'handleEvent']);
 
@@ -31,7 +29,6 @@ Route::group([
     
 });
 
-
-
-    Route::post('/test', [EventController::class, 'test']);
+    Route::post('/callPatient', [EventController::class, 'callPatient']);
+    Route::post('/getQueue',[EventController::class, 'getQueue']);
 

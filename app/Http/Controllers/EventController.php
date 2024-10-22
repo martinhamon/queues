@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\office;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
@@ -37,9 +38,9 @@ class EventController extends Controller
         //Check patien table for existing patient
         if ($patient == null) {
             $patient = new Patient();
-            $patient->name = $request->patient->name;
-            $patient->lastname = $request->patient->last_name;
-            $patient->dni = $request->patient->pat_dni;
+            $patient->name = $request->patient['name'];
+            $patient->lastname = $request->patient['last_name'];
+            $patient->dni = $request->patient['pat_dni'];
            
             $patient->save();
         }
@@ -79,15 +80,36 @@ class EventController extends Controller
         ]);
 
     }
-        // Aquí puedes añadir la lógica para manejar el evento
-        // Por ejemplo, guardar en la base de datos, enviar una notificación, etc.
+       
 
-        return response()->json(['status' => 'Evento procesado correctamente']);
+       return response()->json(['status' => 'Evento procesado correctamente']);
     }
 
 
-    public function test()
+    public function callPatient(Request $request)
+    {  
+        $patient = Patient::find($request->patient);
+      
+        $query   = patient_queue::where('patient_id',$request->patient)
+        ->Where('office_id', $request->office);
+        
+        $patientQueue = $query->first();
+       
+                $patientQueue->status = 'in progress';
+         $patientQueue->save();
+        event(new \App\Events\PatientCall($patient,office::find($request->office)));   
+        return response()->json(['status' =>  $query]); 
+    }
+
+    public function getQueue()
     {
-        return response()->json(['status' => 'Evento procesado correctamente']);
+        $patients_in_queue = patient_queue::where('status','!=', 'completed')
+        ->join('patients', 'patients.id', '=', 'patient_queues.patient_id')
+        ->join('offices', 'offices.id', '=', 'patient_queues.office_id')
+        ->orderBy('patient_queues.created_at', 'asc')->get();
+        return response()->json($patients_in_queue);
     }
+
+
+    
 }
