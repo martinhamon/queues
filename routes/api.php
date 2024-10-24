@@ -10,7 +10,7 @@ use App\Http\Controllers\ApiAuthController;
 Route::post('/events', [EventController::class, 'handleEvent']);
 
 
-
+Route::post('/test', [EventController::class, 'test']);
 
 Route::group([
 

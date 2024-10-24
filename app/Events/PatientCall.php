@@ -32,6 +32,7 @@ class PatientCall implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
+       
         return [
             new Channel('patient-call'),
         ];

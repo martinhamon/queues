@@ -27,7 +27,7 @@ class EventController extends Controller
     {
         // Procesar los datos recibidos
        
-
+      
         $patient = Patient::where('dni', $request->patient['pat_dni'])->first();
       // return response()->json($request->patient);
 
@@ -89,14 +89,20 @@ class EventController extends Controller
     public function callPatient(Request $request)
     {  
         $patient = Patient::find($request->patient);
-      
+       
         $query   = patient_queue::where('patient_id',$request->patient)
         ->Where('office_id', $request->office);
-        
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+        $fullSql = vsprintf(str_replace('?', '%s', $sql), array_map(function ($binding) {
+            return is_numeric($binding) ? $binding : "'$binding'";
+        }, $bindings));
+
         $patientQueue = $query->first();
        
                 $patientQueue->status = 'in progress';
          $patientQueue->save();
+        
         event(new \App\Events\PatientCall($patient,office::find($request->office)));   
         return response()->json(['status' =>  $query]); 
     }
@@ -111,5 +117,7 @@ class EventController extends Controller
     }
 
 
-    
+    public function test(){
+        return response()->json(['status' => 'Evento procesado correctamente']);
+    }
 }
