@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
            
             '/queue',
-            '/auth/caller',
+            '/caller',
            
         ]);
     })

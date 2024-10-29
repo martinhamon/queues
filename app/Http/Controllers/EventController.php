@@ -45,6 +45,7 @@ class EventController extends Controller
             $patient->save();
         }
        foreach($request->studies as $study){
+        
         //Equivalencia de modalidad del estudio a la office que debe figurar en pantalla.
         // CT -> 1
         // MR -> 2
